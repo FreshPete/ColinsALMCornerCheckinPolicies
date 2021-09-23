@@ -1,10 +1,9 @@
 ﻿using Microsoft.QualityTools.Testing.Fakes;
 using Microsoft.TeamFoundation.VersionControl.Client;
-using Microsoft.TeamFoundation.VersionControl.Client.Fakes;
 using Microsoft.TeamFoundation.WorkItemTracking.Client;
-using Microsoft.TeamFoundation.WorkItemTracking.Client.Fakes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using ColinsALMCheckinPolicies;
 
 namespace ColinsALMCheckinPolicies.UnitTests
 {
@@ -113,12 +112,12 @@ namespace ColinsALMCheckinPolicies.UnitTests
 					FakeUtils.CreateCodeReviewResponse(2, "Closed", "Needs Work"),
 					FakeUtils.CreateCodeReviewResponse(3, "Closed", "Looks Good")
 				};
-				var oldReview = FakeUtils.CreateCodeReviewRequest(1, "Closed", "Closed", oldResponses);
+				var oldReview = FakeUtils.CreateCodeReviewRequest("Closed", "Closed", oldResponses);
 				var newResponses = new List<WorkItem>()
 				{
 					FakeUtils.CreateCodeReviewResponse(3, "Closed", "Looks Good")
 				};
-				var newReview = FakeUtils.CreateCodeReviewRequest(1, "Closed", "Closed", newResponses);
+				var newReview = FakeUtils.CreateCodeReviewRequest("Closed", "Closed", newResponses);
 				var checkin = FakeUtils.CreatePendingCheckin(new List<ShimWorkItem>() { oldReview, newReview });
 
 				policy.Initialize(checkin);
@@ -198,7 +197,7 @@ namespace ColinsALMCheckinPolicies.UnitTests
 				{
 					FakeUtils.CreateCodeReviewResponse(2, "Closed", "Looks Good")
 				};
-				var reviewWorkItem = FakeUtils.CreateCodeReviewRequest(1, "Closed", "Closed", responses);
+				var reviewWorkItem = FakeUtils.CreateCodeReviewRequest("Closed", "Closed", responses);
 				var checkin = FakeUtils.CreatePendingCheckin(reviewWorkItem);
 
 				policy.Initialize(checkin);
@@ -227,7 +226,7 @@ namespace ColinsALMCheckinPolicies.UnitTests
 				{
 					FakeUtils.CreateCodeReviewResponse(2, "Closed", "Looks Good")
 				};
-				var reviewWorkItem = FakeUtils.CreateCodeReviewRequest(1, "Requested", "", responses);
+				var reviewWorkItem = FakeUtils.CreateCodeReviewRequest("Requested", "", responses);
 				var checkin = FakeUtils.CreatePendingCheckin(reviewWorkItem);
 
 				policy.Initialize(checkin);
@@ -257,7 +256,7 @@ namespace ColinsALMCheckinPolicies.UnitTests
 					FakeUtils.CreateCodeReviewResponse(2, "Closed", "Looks Good"),
 					FakeUtils.CreateCodeReviewResponse(3, "Closed", "With Comments")
 				};
-				var reviewWorkItem = FakeUtils.CreateCodeReviewRequest(1, "Closed", "Closed", responses);
+				var reviewWorkItem = FakeUtils.CreateCodeReviewRequest("Closed", "Closed", responses);
 				var checkin = FakeUtils.CreatePendingCheckin(reviewWorkItem);
 
 				policy.Initialize(checkin);
@@ -287,7 +286,7 @@ namespace ColinsALMCheckinPolicies.UnitTests
 					FakeUtils.CreateCodeReviewResponse(2, "Closed", "Looks Good"),
 					FakeUtils.CreateCodeReviewResponse(3, "Closed", "Needs Work")
 				};
-				var reviewWorkItem = FakeUtils.CreateCodeReviewRequest(1, "Closed", "Closed", responses);
+				var reviewWorkItem = FakeUtils.CreateCodeReviewRequest("Closed", "Closed", responses);
 				var checkin = FakeUtils.CreatePendingCheckin(reviewWorkItem);
 
 				policy.Initialize(checkin);
@@ -317,7 +316,7 @@ namespace ColinsALMCheckinPolicies.UnitTests
 					FakeUtils.CreateCodeReviewResponse(2, "Closed", "Looks Good"),
 					FakeUtils.CreateCodeReviewResponse(3, "Closed", "Needs Work")
 				};
-				var reviewWorkItem = FakeUtils.CreateCodeReviewRequest(1, "Closed", "Closed", responses);
+				var reviewWorkItem = FakeUtils.CreateCodeReviewRequest("Closed", "Closed", responses);
 				var checkin = FakeUtils.CreatePendingCheckin(reviewWorkItem);
 
 				policy.Initialize(checkin);
@@ -347,7 +346,7 @@ namespace ColinsALMCheckinPolicies.UnitTests
 					FakeUtils.CreateCodeReviewResponse(2, "Closed", "Looks Good"),
 					FakeUtils.CreateCodeReviewResponse(3, "Closed", "With Comments")
 				};
-				var reviewWorkItem = FakeUtils.CreateCodeReviewRequest(1, "Closed", "Closed", responses);
+				var reviewWorkItem = FakeUtils.CreateCodeReviewRequest("Closed", "Closed", responses);
 				var checkin = FakeUtils.CreatePendingCheckin(reviewWorkItem);
 
 				policy.Initialize(checkin);
@@ -377,7 +376,7 @@ namespace ColinsALMCheckinPolicies.UnitTests
 					FakeUtils.CreateCodeReviewResponse(2, "Closed", "Looks Good"),
 					FakeUtils.CreateCodeReviewResponse(3, "Closed", "Looks Good")
 				};
-				var reviewWorkItem = FakeUtils.CreateCodeReviewRequest(1, "Closed", "Closed", responses);
+				var reviewWorkItem = FakeUtils.CreateCodeReviewRequest("Closed", "Closed", responses);
 				var checkin = FakeUtils.CreatePendingCheckin(reviewWorkItem);
 
 				policy.Initialize(checkin);
@@ -407,7 +406,7 @@ namespace ColinsALMCheckinPolicies.UnitTests
 					FakeUtils.CreateCodeReviewResponse(2, "Closed", "Looks Good"),
 					FakeUtils.CreateCodeReviewResponse(3, "Closed", "Looks Good")
 				};
-				var reviewWorkItem = FakeUtils.CreateCodeReviewRequest(1, "Closed", "Closed", responses);
+				var reviewWorkItem = FakeUtils.CreateCodeReviewRequest("Closed", "Closed", responses);
 				var checkin = FakeUtils.CreatePendingCheckin(reviewWorkItem);
 
 				policy.Initialize(checkin);
@@ -437,7 +436,7 @@ namespace ColinsALMCheckinPolicies.UnitTests
 					FakeUtils.CreateCodeReviewResponse(2, "Closed", "With Comments"),
 					FakeUtils.CreateCodeReviewResponse(3, "Closed", "Looks Good")
 				};
-				var reviewWorkItem = FakeUtils.CreateCodeReviewRequest(1, "Closed", "Closed", responses);
+				var reviewWorkItem = FakeUtils.CreateCodeReviewRequest("Closed", "Closed", responses);
 				var checkin = FakeUtils.CreatePendingCheckin(reviewWorkItem);
 
 				policy.Initialize(checkin);
@@ -463,7 +462,7 @@ namespace ColinsALMCheckinPolicies.UnitTests
 			using (var context = ShimsContext.Create())
 			{
 				var responses = new List<WorkItem>();
-				var reviewWorkItem = FakeUtils.CreateCodeReviewRequest(1, "Closed", "Closed", responses);
+				var reviewWorkItem = FakeUtils.CreateCodeReviewRequest("Closed", "Closed", responses);
 				var checkin = FakeUtils.CreatePendingCheckin(reviewWorkItem);
 
 				policy.Initialize(checkin);
@@ -489,7 +488,7 @@ namespace ColinsALMCheckinPolicies.UnitTests
 			using (var context = ShimsContext.Create())
 			{
 				var responses = new List<WorkItem>();
-				var reviewWorkItem = FakeUtils.CreateCodeReviewRequest(1, "Closed", "Closed", responses);
+				var reviewWorkItem = FakeUtils.CreateCodeReviewRequest("Closed", "Closed", responses);
 				var checkin = FakeUtils.CreatePendingCheckin(reviewWorkItem);
 
 				policy.Initialize(checkin);
@@ -519,7 +518,7 @@ namespace ColinsALMCheckinPolicies.UnitTests
 					FakeUtils.CreateCodeReviewResponse(2, "Closed", "Declined"),
 					FakeUtils.CreateCodeReviewResponse(3, "Closed", "Declined")
 				};
-				var reviewWorkItem = FakeUtils.CreateCodeReviewRequest(1, "Closed", "Closed", responses);
+				var reviewWorkItem = FakeUtils.CreateCodeReviewRequest("Closed", "Closed", responses);
 				var checkin = FakeUtils.CreatePendingCheckin(reviewWorkItem);
 
 				policy.Initialize(checkin);
@@ -549,7 +548,7 @@ namespace ColinsALMCheckinPolicies.UnitTests
 					FakeUtils.CreateCodeReviewResponse(2, "Closed", "Declined"),
 					FakeUtils.CreateCodeReviewResponse(3, "Closed", "Declined")
 				};
-				var reviewWorkItem = FakeUtils.CreateCodeReviewRequest(1, "Closed", "Abandoned", responses);
+				var reviewWorkItem = FakeUtils.CreateCodeReviewRequest("Closed", "Abandoned", responses);
 				var checkin = FakeUtils.CreatePendingCheckin(reviewWorkItem);
 
 				policy.Initialize(checkin);
@@ -579,7 +578,7 @@ namespace ColinsALMCheckinPolicies.UnitTests
 					FakeUtils.CreateCodeReviewResponse(2, "Closed", "Declined"),
 					FakeUtils.CreateCodeReviewResponse(3, "Closed", "With Comments")
 				};
-				var reviewWorkItem = FakeUtils.CreateCodeReviewRequest(1, "Closed", "Closed", responses);
+				var reviewWorkItem = FakeUtils.CreateCodeReviewRequest("Closed", "Closed", responses);
 				var checkin = FakeUtils.CreatePendingCheckin(reviewWorkItem);
 
 				policy.Initialize(checkin);
@@ -628,7 +627,7 @@ namespace ColinsALMCheckinPolicies.UnitTests
 
             using (var context = ShimsContext.Create())
             {
-                var reviewWorkItem = FakeUtils.CreateCodeReviewRequest(1, "Requested", "", new List<WorkItem>());
+                var reviewWorkItem = FakeUtils.CreateCodeReviewRequest("Requested", "", new List<WorkItem>());
                 var checkin = FakeUtils.CreatePendingCheckin(reviewWorkItem);
 
                 policy.Initialize(checkin);
@@ -659,7 +658,7 @@ namespace ColinsALMCheckinPolicies.UnitTests
 					FakeUtils.CreateCodeReviewResponse(2, "Closed", "Looks Good"),
 					FakeUtils.CreateCodeReviewResponse(3, "Closed", "Looks Good")
 				};
-				var reviewWorkItem = FakeUtils.CreateCodeReviewRequest(1, "Closed", "Closed", responses);
+				var reviewWorkItem = FakeUtils.CreateCodeReviewRequest("Closed", "Closed", responses);
 				var checkin = FakeUtils.CreatePendingCheckin(reviewWorkItem);
 
 				policy.Initialize(checkin);
@@ -690,12 +689,12 @@ namespace ColinsALMCheckinPolicies.UnitTests
 					FakeUtils.CreateCodeReviewResponse(2, "Closed", "Needs Work"),
 					FakeUtils.CreateCodeReviewResponse(3, "Closed", "Looks Good")
 				};
-				var oldReview = FakeUtils.CreateCodeReviewRequest(1, "Closed", "Closed", oldResponses);
+				var oldReview = FakeUtils.CreateCodeReviewRequest("Closed", "Closed", oldResponses);
 				var newResponses = new List<WorkItem>()
 				{
 					FakeUtils.CreateCodeReviewResponse(3, "Closed", "Looks Good")
 				};
-				var newReview = FakeUtils.CreateCodeReviewRequest(1, "Closed", "Closed", newResponses);
+				var newReview = FakeUtils.CreateCodeReviewRequest("Closed", "Closed", newResponses);
 				var checkin = FakeUtils.CreatePendingCheckin(new List<ShimWorkItem>() { oldReview, newReview });
 
 				policy.Initialize(checkin);

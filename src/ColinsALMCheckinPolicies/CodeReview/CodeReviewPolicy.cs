@@ -73,9 +73,11 @@ namespace ColinsALMCheckinPolicies
 
 		public override BinaryFormatter GetBinaryFormatter()
 		{
-			BinaryFormatter formatter = new BinaryFormatter();
-			formatter.Binder = new CodeReviewPolicySerializationBinding();
-			return formatter;
+            var formatter = new BinaryFormatter
+            {
+                Binder = new CodeReviewPolicySerializationBinding()
+            };
+            return formatter;
 		} 
 		#endregion
 

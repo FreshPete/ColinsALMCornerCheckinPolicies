@@ -188,3 +188,5 @@ GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
 /src/.vs/ColinsALMCheckinPolicies
+/src/packages/Microsoft.TeamFoundationServer.ExtendedClient.16.170.0
+/src/packages

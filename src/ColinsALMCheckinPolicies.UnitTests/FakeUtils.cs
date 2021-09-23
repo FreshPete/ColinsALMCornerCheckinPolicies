@@ -40,7 +40,7 @@ namespace ColinsALMCheckinPolicies.UnitTests
 			return responseWorkItem;
 		}
 
-		internal static ShimWorkItem CreateCodeReviewRequest(int id, string state, string closedStatus, List<WorkItem> responses)
+		internal static ShimWorkItem CreateCodeReviewRequest(string state, string closedStatus, List<WorkItem> responses)
 		{
 			var requestFields = new List<Field>()
 				{
